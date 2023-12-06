@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 });
 
-const url = `mongodb+srv://${process.env.MONGO_CREDENS}@docpatientclusteru.lpfrgin.mongodb.net/?retryWrites=true&w=majority`;
+const url = `mongodb+srv://YimbsCorporation:yimbsAtYourService@docpatientclusteru.lpfrgin.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose
   .connect(url)
