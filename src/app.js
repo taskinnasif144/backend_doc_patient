@@ -26,11 +26,11 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 });
 
-const url = `mongodb+srv://YimbsCorporation:yimbsAtYourService@docpatientclusteru.lpfrgin.mongodb.net/?retryWrites=true&w=majority`;
+const url = process.env.MONGO_URL;
 
 mongoose
   .connect(url)
-  .then(() => server.listen(3000))
+  .then(() => server.listen(process.env.PORT || 3000))
   .then(() => console.log("Server connected and database is also connected"))
   .catch((err) => console.error(err));
 
