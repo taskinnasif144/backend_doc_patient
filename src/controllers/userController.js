@@ -141,3 +141,20 @@ export const searchDoctors = async (req, res) => {
     return res.status(200).json(suggestion);
   }
 };
+
+export const getSingleUserRecord = async (req, res) => {
+  const { id } = req.params;
+  let patientRecords;
+  try {
+    patientRecords = await userModel.findOne({ userID: id });
+  } catch (error) {
+    console.error(error);
+  }
+
+  if (patientRecords) {
+    console.log(patientRecords);
+    res.status(200).json(patientRecords);
+  } else {
+    res.status(400).json({ message: "Something went wrong" });
+  }
+};
