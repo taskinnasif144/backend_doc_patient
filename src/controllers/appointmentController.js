@@ -67,3 +67,24 @@ export const getAppointments = async (req, res) => {
     return res.status(404).json({ messaeg: "No data found" });
   }
 };
+
+export const deleteAppointment = async (req, res) => {
+  console.log("inside delete");
+  const { id } = req.params;
+
+  let result;
+
+  console.log("inside function, id is", id);
+
+  try {
+    result = await appointmentModel.findByIdAndRemove(id);
+  } catch (error) {
+    console.error(error);
+  }
+
+  if (result) {
+    return res.status(200).json({ message: "deleted" });
+  } else {
+    return res.status(200).json({ message: "delete failed" });
+  }
+};
