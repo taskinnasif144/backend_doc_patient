@@ -16,25 +16,37 @@ export const createRecord = async (req, res) => {
     doctorName,
   } = req.body;
 
-  medicines.forEach(async (element) => {
-    if (element["isAntibiotic"]) {
-      const notification = new notiModel({
-        senderName: doctorName,
-        data: "You have been prescribed an Antibiotic",
-        recieverID: userID,
-      });
+  let hasAntibiotic = false;
+  let daysToContinue = 0;
 
-      try {
-        await notification.save();
-        io.emit("notification", {
-          message: "A new antibiotic prescription has been made.",
-          userID: userID,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+  medicines.forEach(async (element) => {
+    if (element["quantity"] > daysToContinue) {
+      daysToContinue = element["quantity"];
+    }
+    if (element["isAntibiotic"]) {
+      hasAntibiotic = true;
     }
   });
+
+  if (hasAntibiotic) {
+    const notification = new notiModel({
+      senderName: doctorName,
+      data: `You have been prescribed an Antibiotic by Dr. ${doctorName}`,
+      recieverID: userID,
+    });
+
+    try {
+      await notification.save();
+      io.emit("notification", {
+        message: `A new antibiotic prescription has been made by ${doctorName}.`,
+        userID: userID,
+        sender: doctorName,
+        daysToContinue: daysToContinue,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const newRecord = new patientRecordModel({
     patientName: name,
@@ -111,7 +123,7 @@ export const searchPatientReport = async (req, res) => {
   }
 
   if (records) {
-    return res.status(200).json(records);
+    return res.status(200).json(records.reverse());
   }
 };
 
@@ -143,8 +155,6 @@ export const isActive = async (req, res) => {
 
 export const updateAntibiotic = async (req, res) => {
   const { pid } = req.body;
-
-  console.log("pid", pid);
 
   let record;
   let isLeft = false;

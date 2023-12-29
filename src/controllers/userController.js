@@ -35,7 +35,6 @@ export const createUser = async (req, res) => {
   const { name, userID, password, designation, hospitalName, department } =
     req.body;
 
-  console.log(req.body);
   let existingUser;
   try {
     existingUser = await userModel.findOne({ userID: userID });
@@ -60,7 +59,6 @@ export const createUser = async (req, res) => {
     await newUser.save();
     res.status(200).json({ message: "User created" });
   } catch (err) {
-    console.log(err);
     res.status(200).json({ message: "Something went Wrong" });
   }
 };
@@ -95,7 +93,6 @@ export const searchPatient = async (req, res) => {
 
 export const getMyRecords = async (req, res) => {
   const { uid } = req.params;
-  console.log(uid);
 
   let records = await patientRecordModel.find({
     patientUserID: uid,
@@ -152,7 +149,6 @@ export const getSingleUserRecord = async (req, res) => {
   }
 
   if (patientRecords) {
-    console.log(patientRecords);
     res.status(200).json(patientRecords);
   } else {
     res.status(400).json({ message: "Something went wrong" });

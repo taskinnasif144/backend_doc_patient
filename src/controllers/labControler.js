@@ -13,8 +13,6 @@ export const createARB = async (req, res) => {
     levofloxacin,
   } = req.body;
 
-  console.log(req.body);
-
   const newRecord = new arbModel({
     userID,
     name,
@@ -51,7 +49,6 @@ export const getArbRecords = async (req, res) => {
 export const getSingleARB = async (req, res) => {
   const { uid } = req.params;
 
-  console.log(uid);
   let singleARB;
   try {
     singleARB = await arbModel.findOne({ _id: uid });

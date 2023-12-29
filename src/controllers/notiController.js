@@ -12,7 +12,9 @@ export const getNotifications = async (req, res) => {
   }
 
   if (notis) {
-    return res.status(200).json({ message: "Noti loaded", notis: notis });
+    return res
+      .status(200)
+      .json({ message: "Noti loaded", notis: notis.reverse() });
   } else {
     return res.status(200).json({ message: "No Notificaitons Found" });
   }
@@ -20,7 +22,7 @@ export const getNotifications = async (req, res) => {
 
 export const deleteNotification = async (req, res) => {
   const { id } = req.params;
-  console.log("deleting");
+
   let result;
 
   try {

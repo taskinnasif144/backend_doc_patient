@@ -9,6 +9,7 @@ import { labRouter } from "./router/labRouter.js";
 import http from "http";
 import { Server } from "socket.io";
 import { notiRouter } from "./router/notiRouter.js";
+import { appointmentRouter } from "./router/appointmentRouter.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +22,7 @@ app.use("/auth", userRouter);
 app.use("/patient", patientRouter);
 app.use("/lab", labRouter);
 app.use("/noti", notiRouter);
+app.use("/appointments", appointmentRouter);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
