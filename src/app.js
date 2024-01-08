@@ -10,6 +10,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { notiRouter } from "./router/notiRouter.js";
 import { appointmentRouter } from "./router/appointmentRouter.js";
+import { fileRounter } from "./router/fileRouter.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -23,15 +24,15 @@ app.use("/patient", patientRouter);
 app.use("/lab", labRouter);
 app.use("/noti", notiRouter);
 app.use("/appointments", appointmentRouter);
+app.use("/files", fileRounter);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
 });
-
-const url = process.env.MONGO_URL;
+const urlApp = process.env.MONGO_URL;
 
 mongoose
-  .connect(url)
+  .connect(urlApp)
   .then(() => server.listen(process.env.PORT || 3000))
   .then(() => console.log("Server connected and database is also connected"))
   .catch((err) => console.error(err));
