@@ -10,7 +10,8 @@ import http from "http";
 import { Server } from "socket.io";
 import { notiRouter } from "./router/notiRouter.js";
 import { appointmentRouter } from "./router/appointmentRouter.js";
-import { fileRounter } from "./router/fileRouter.js";
+// under maintamce
+// import { fileRounter } from "./router/fileRouter.js";
 
 const app = express();
 const server = http.createServer(app);
