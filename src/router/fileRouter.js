@@ -16,7 +16,7 @@ conn.once("open", () => {
 });
 
 const urlFile =
-  "mongodb+srv://YimbsCorporation:yimbsAtYourService@docpatientclusteru.lpfrgin.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://YimbsCorporation:yimbsAtYourService@docpatientclusteru.lpfrgin.mongodb.net/test?retryWrites=true&w=majority";
 
 const storage = GridFsStorage({
   url: `${urlFile}`,

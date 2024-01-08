@@ -28,11 +28,15 @@ app.use("/files", fileRounter);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
+
 const urlApp = process.env.MONGO_URL;
 
 mongoose
-  .connect(urlApp)
+  .connect(urlApp, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => server.listen(process.env.PORT || 3000))
   .then(() => console.log("Server connected and database is also connected"))
   .catch((err) => console.error(err));
