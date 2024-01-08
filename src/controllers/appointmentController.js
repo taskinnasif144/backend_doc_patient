@@ -17,7 +17,7 @@ export const createAppointment = async (req, res) => {
       message: `You have an appointment with ${patientName}`,
       sender: patientName,
       userID: doctorID,
-      daysToContinue: 1,
+      daysToContinue: schedule,
     });
   } catch (error) {
     console.error(error);

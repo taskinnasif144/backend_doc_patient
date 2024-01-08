@@ -170,27 +170,25 @@ export const updateAntibiotic = async (req, res) => {
 
     if (record.length != 0) {
       for (let e of record[0]["medicines"]) {
-        if (e["isAntibiotic"]) {
-          if (e["quantity"] > 0) {
-            if (e["quantity"] > 1) {
-              isLeft = true;
-            } else if (e["quantity"] == 1) {
-              e["isAntibiotic"] = false;
-            }
-            e["quantity"] = e["quantity"] - 1;
-
-            try {
-              await record[0].save();
-            } catch (error) {
-              console.error(error);
-            }
-          } else {
+        if (e["quantity"] > 0) {
+          if (e["quantity"] > 1) {
+            isLeft = true;
+          } else if (e["quantity"] == 1) {
             e["isAntibiotic"] = false;
-            try {
-              await record[0].save();
-            } catch (error) {
-              console.error(error);
-            }
+          }
+          e["quantity"] = e["quantity"] - 1;
+
+          try {
+            await record[0].save();
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          e["isAntibiotic"] = false;
+          try {
+            await record[0].save();
+          } catch (error) {
+            console.error(error);
           }
         }
       }
