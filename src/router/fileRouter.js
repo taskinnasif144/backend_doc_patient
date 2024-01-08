@@ -1,40 +1,42 @@
-import express from "express";
-import multer from "multer";
-import mongoose from "mongoose";
-import GridFsStorage from "multer-gridfs-storage";
-import Grid from "gridfs-stream";
-import { uploadFile } from "../controllers/filesController.js";
+// the whole file is under development
 
-const router = express.Router();
+// import express from "express";
+// import multer from "multer";
+// import mongoose from "mongoose";
+// import GridFsStorage from "multer-gridfs-storage";
+// import Grid from "gridfs-stream";
+// import { uploadFile } from "../controllers/filesController.js";
 
-const conn = mongoose.connection;
+// const router = express.Router();
 
-let gfs;
-conn.once("open", () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("uploads");
-});
+// const conn = mongoose.connection;
 
-const urlFile =
-  "mongodb+srv://YimbsCorporation:yimbsAtYourService@docpatientclusteru.lpfrgin.mongodb.net/test?retryWrites=true&w=majority";
+// let gfs;
+// conn.once("open", () => {
+//   gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection("uploads");
+// });
 
-const storage = GridFsStorage({
-  url: `${urlFile}`,
-  options: { useNewUrlParser: true, useUnifiedTopology: true },
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      const filename = file.originalname;
-      const fileInfo = {
-        filename: filename,
-        bucketName: "uploads",
-      };
-      resolve(fileInfo);
-    });
-  },
-});
+// const urlFile =
+//   "mongodb+srv://YimbsCorporation:yimbsAtYourService@docpatientclusteru.lpfrgin.mongodb.net/test?retryWrites=true&w=majority";
 
-const upload = multer({ storage });
+// const storage = GridFsStorage({
+//   url: `${urlFile}`,
+//   options: { useNewUrlParser: true, useUnifiedTopology: true },
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       const filename = file.originalname;
+//       const fileInfo = {
+//         filename: filename,
+//         bucketName: "uploads",
+//       };
+//       resolve(fileInfo);
+//     });
+//   },
+// });
 
-router.post("/upload", upload.single("file"), uploadFile);
+// const upload = multer({ storage });
 
-export { router as fileRounter };
+// router.post("/upload", upload.single("file"), uploadFile);
+
+// export { router as fileRounter };
