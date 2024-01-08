@@ -24,7 +24,9 @@ app.use("/patient", patientRouter);
 app.use("/lab", labRouter);
 app.use("/noti", notiRouter);
 app.use("/appointments", appointmentRouter);
-app.use("/files", fileRounter);
+
+//curenntly under progress
+// app.use("/files", fileRounter);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
