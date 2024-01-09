@@ -11,6 +11,12 @@ const arbSchema = mongoose.Schema(
     doxycycline: String,
     imipenem: String,
     levofloxacin: String,
+    meropenem: String,
+    netilmicin: String,
+    nitrofurantoin: String,
+    piperacilin: String,
+    fosfomycin: String,
+    ciprocin: String,
   },
   {
     timestamps: true,

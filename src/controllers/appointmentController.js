@@ -1,4 +1,4 @@
-import io from "../app.js";
+import io, { onlineUsers } from "../app.js";
 import appointmentModel from "../models/appointmentModel.js";
 import notiModel from "../models/notiModel.js";
 
@@ -9,6 +9,13 @@ export const createAppointment = async (req, res) => {
     senderName: patientName,
     data: `You have an appointment with ${patientName}`,
     recieverID: doctorID,
+    isSent: onlineUsers[userID] ? true : false,
+    info: {
+      message: `You have an appointment with ${patientName}`,
+      sender: patientName,
+      userID: doctorID,
+      daysToContinue: schedule,
+    },
   });
 
   try {

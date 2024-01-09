@@ -1,4 +1,4 @@
-import io from "../app.js";
+import io, { onlineUsers } from "../app.js";
 import arbModel from "../models/arbModel.js";
 import notiModel from "../models/notiModel.js";
 import patientRecordModel from "../models/patientRecord.js";
@@ -33,6 +33,13 @@ export const createRecord = async (req, res) => {
       senderName: doctorName,
       data: `You have been prescribed an Antibiotic by Dr. ${doctorName}`,
       recieverID: userID,
+      isSent: onlineUsers[userID] ? true : false,
+      info: {
+        message: `You have been prescribed an Antibiotic by Dr. ${doctorName}`,
+        userID: userID,
+        sender: doctorName,
+        daysToContinue: daysToContinue,
+      },
     });
 
     try {

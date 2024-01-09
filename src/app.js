@@ -10,6 +10,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { notiRouter } from "./router/notiRouter.js";
 import { appointmentRouter } from "./router/appointmentRouter.js";
+import { getUnsentNotifications } from "./controllers/notiController.js";
 // under maintamce
 // import { fileRounter } from "./router/fileRouter.js";
 
@@ -20,6 +21,24 @@ const io = new Server(server);
 app.use(express.json());
 app.use(cors());
 
+export var onlineUsers = {};
+
+io.on("connection", (socket) => {
+  let userID = socket.handshake.query.userID;
+  onlineUsers[userID] = true;
+
+  getUnsentNotifications().then((value) => {
+    for (let index = 0; index < value.length; index++) {
+      io.emit("notification", value[index]["info"]);
+    }
+  });
+
+  console.log(onlineUsers);
+  socket.on("disconnect", () => {
+    delete onlineUsers[userID];
+  });
+});
+
 app.use("/auth", userRouter);
 app.use("/patient", patientRouter);
 app.use("/lab", labRouter);
@@ -28,13 +47,6 @@ app.use("/appointments", appointmentRouter);
 
 //curenntly under progress
 // app.use("/files", fileRounter);
-
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
 
 const urlApp = process.env.MONGO_URL;
 

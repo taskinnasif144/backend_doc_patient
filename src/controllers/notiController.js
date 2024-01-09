@@ -1,5 +1,25 @@
 import notiModel from "../models/notiModel.js";
 
+export const getUnsentNotifications = async () => {
+  let notis;
+
+  try {
+    notis = await notiModel.find({ isSent: false });
+  } catch (error) {
+    console.error(error);
+  }
+
+  if (notis) {
+    for (let n = 0; n < notis.length; n++) {
+      notis[n]["isSent"] = true;
+      await notis[n].save();
+    }
+    return notis;
+  } else {
+    return [];
+  }
+};
+
 export const getNotifications = async (req, res) => {
   const { uid } = req.params;
 

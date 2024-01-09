@@ -11,6 +11,12 @@ export const createARB = async (req, res) => {
     doxycycline,
     imipenem,
     levofloxacin,
+    meropenem,
+    netilmicin,
+    nitrofurantoin,
+    piperacilin,
+    fosfomycin,
+    ciprocin,
   } = req.body;
 
   const newRecord = new arbModel({
@@ -23,6 +29,12 @@ export const createARB = async (req, res) => {
     doxycycline,
     imipenem,
     levofloxacin,
+    meropenem,
+    netilmicin,
+    nitrofurantoin,
+    piperacilin,
+    fosfomycin,
+    ciprocin,
   });
 
   try {
