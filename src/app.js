@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
   console.log(onlineUsers);
   socket.on("disconnect", () => {
     delete onlineUsers[userID];
+    console.log(onlineUsers);
   });
 });
 
