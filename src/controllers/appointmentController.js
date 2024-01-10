@@ -9,7 +9,7 @@ export const createAppointment = async (req, res) => {
     senderName: patientName,
     data: `You have an appointment with ${patientName}`,
     recieverID: doctorID,
-    isSent: onlineUsers[userID] ? true : false,
+    isSent: onlineUsers[patientID] ? true : false,
     info: {
       message: `You have an appointment with ${patientName}`,
       sender: patientName,
