@@ -28,7 +28,6 @@ export const uploadFile = async (req, res) => {
 };
 
 export const getUploadedFiles = async (req, res) => {
-  console.log("getting files");
   let files;
   try {
     files = await fileModel.find({});
@@ -42,5 +41,24 @@ export const getUploadedFiles = async (req, res) => {
     return res.status(200).json({ message: "File Loaded", files: files });
   } else {
     return res.status(200).json({ message: "No File Loaded", files: [] });
+  }
+};
+
+export const deleteUplaodedFile = async (req, res) => {
+  const { id } = req.params;
+  console.log("delete", id);
+  let files;
+  try {
+    files = await fileModel.findByIdAndRemove(id);
+  } catch (error) {
+    console.error(error);
+  }
+
+  if (files) {
+    console.log(files);
+
+    return res.status(200).json({ message: "File deleted", files: files });
+  } else {
+    return res.status(200).json({ message: "deletion failed", files: [] });
   }
 };

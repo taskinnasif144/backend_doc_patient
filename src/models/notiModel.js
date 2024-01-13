@@ -6,6 +6,7 @@ const notiSchema = mongoose.Schema(
     data: String,
     recieverID: String,
     isSent: Boolean,
+    purpose: Boolean,
     info: mongoose.Schema.Types.Mixed,
   },
   {

@@ -34,6 +34,7 @@ export const createRecord = async (req, res) => {
       data: `You have been prescribed an Antibiotic by Dr. ${doctorName}`,
       recieverID: userID,
       isSent: onlineUsers[userID] ? true : false,
+      purpsoe: false,
       info: {
         message: `You have been prescribed an Antibiotic by Dr. ${doctorName}`,
         userID: userID,

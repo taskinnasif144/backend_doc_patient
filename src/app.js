@@ -29,7 +29,12 @@ io.on("connection", (socket) => {
 
   getUnsentNotifications().then((value) => {
     for (let index = 0; index < value.length; index++) {
-      io.emit("notification", value[index]["info"]);
+      console.log(value[index]["info"]);
+      if (value[index]["purpose"]) {
+        io.emit("Appointment", value[index]["info"]);
+      } else {
+        io.emit("notification", value[index]["info"]);
+      }
     }
   });
 
