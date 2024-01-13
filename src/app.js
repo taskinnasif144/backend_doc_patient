@@ -11,8 +11,8 @@ import { Server } from "socket.io";
 import { notiRouter } from "./router/notiRouter.js";
 import { appointmentRouter } from "./router/appointmentRouter.js";
 import { getUnsentNotifications } from "./controllers/notiController.js";
-// under maintamce
-// import { fileRounter } from "./router/fileRouter.js";
+
+import { fileRounter } from "./router/fileRouter.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -45,9 +45,7 @@ app.use("/patient", patientRouter);
 app.use("/lab", labRouter);
 app.use("/noti", notiRouter);
 app.use("/appointments", appointmentRouter);
-
-//curenntly under progress
-// app.use("/files", fileRounter);
+app.use("/files", fileRounter);
 
 const urlApp = process.env.MONGO_URL;
 
