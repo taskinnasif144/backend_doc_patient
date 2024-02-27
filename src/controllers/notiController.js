@@ -1,59 +1,40 @@
-import notiModel from "../models/notiModel.js";
+import io, { onlineUsers } from "../app.js";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import db from "../config.js";
 
 export const getUnsentNotifications = async () => {
-  let notis;
+  let data = [];
 
   try {
-    notis = await notiModel.find({ isSent: false });
+    const querySnapshot = await getDocs(collection(db, "notificationsV2"));
+
+    querySnapshot.forEach((doc) => {
+      let docData = doc.data();
+      var notifications = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      data.push(notifications);
+    });
   } catch (error) {
     console.error(error);
   }
 
-  if (notis) {
-    for (let n = 0; n < notis.length; n++) {
-      notis[n]["isSent"] = true;
-      await notis[n].save();
+  const filteredNotification = data.filter((noti) => {
+    const recieverID = noti.data.recieverID;
+    const status = noti.data.isSent;
+    return onlineUsers[recieverID] && !status;
+  });
+  if (filteredNotification.length > 0) {
+    for (let n = 0; n < filteredNotification.length; n++) {
+      const docID = filteredNotification[n].id;
+      const notificationRef = doc(db, "notificationsV2", docID);
+      await updateDoc(notificationRef, {
+        isSent: true,
+      });
     }
-    return notis;
+    return filteredNotification;
   } else {
     return [];
-  }
-};
-
-export const getNotifications = async (req, res) => {
-  const { uid } = req.params;
-
-  let notis;
-
-  try {
-    notis = await notiModel.find({ recieverID: uid });
-  } catch (error) {
-    res.status(200).json({ message: "fetching notifications failed" });
-  }
-
-  if (notis) {
-    return res
-      .status(200)
-      .json({ message: "Noti loaded", notis: notis.reverse() });
-  } else {
-    return res.status(200).json({ message: "No Notificaitons Found" });
-  }
-};
-
-export const deleteNotification = async (req, res) => {
-  const { id } = req.params;
-
-  let result;
-
-  try {
-    result = await notiModel.findByIdAndRemove(id);
-  } catch (error) {
-    console.error(error);
-  }
-
-  if (result) {
-    return res.status(200).json({ message: "deleted" });
-  } else {
-    return res.status(200).json({ message: "delete failed" });
   }
 };
