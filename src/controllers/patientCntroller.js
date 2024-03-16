@@ -17,8 +17,9 @@ export const createRecord = async (req, res) => {
 
   let hasAntibiotic = false;
   let daysToContinue = 0;
+  let filteredMeds = medicines.filter((med) => med["medicineName"] !== "");
 
-  medicines.forEach(async (element) => {
+  filteredMeds.forEach(async (element) => {
     if (element["quantity"] > daysToContinue) {
       daysToContinue = element["quantity"];
     }
@@ -54,22 +55,26 @@ export const createRecord = async (req, res) => {
         sender: doctorName,
         daysToContinue: daysToContinue,
       });
-      const newRecord = {
-        patientName: name,
-        patientUserID: userID,
-        batch: batch,
-        session: session,
-        department: department,
-        disease: disease,
-        medicines: medicines,
-        doctorID: doctorID,
-        createdAt: serverTimestamp(),
-      };
-      const dpcRef = await addDoc(collection(db, "patientRecordV2"), newRecord);
-      return res.status(200).json({ message: "Record Created" });
     } catch (error) {
-      console.error(error);
+      return res.status(200).json({ message: "Creating Record failed" });
     }
-    return res.status(200).json({ message: "Creating Record failed" });
+  }
+
+  try {
+    const newRecord = {
+      patientName: name,
+      patientUserID: userID,
+      batch: batch,
+      session: session,
+      department: department,
+      disease: disease,
+      medicines: filteredMeds,
+      doctorID: doctorID,
+      createdAt: serverTimestamp(),
+    };
+    const dpcRef = await addDoc(collection(db, "patientRecordV2"), newRecord);
+    return res.status(200).json({ message: "Record Created" });
+  } catch (error) {
+    return res.status(200).json({ message: "Record failed" });
   }
 };
