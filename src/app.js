@@ -10,7 +10,10 @@ import http from "http";
 import { Server } from "socket.io";
 
 import { appointmentRouter } from "./router/appointmentRouter.js";
-import { getUnsentNotifications } from "./controllers/notiController.js";
+import {
+  getUnsentNotifications,
+  getUnsentNotifications2,
+} from "./controllers/notiController.js";
 
 const app = express();
 app.use(cors());
@@ -35,6 +38,15 @@ io.on("connection", (socket) => {
         io.emit("Appointment", value[index]["data"]["info"]);
       } else {
         io.emit("notification", value[index]["data"]["info"]);
+      }
+    }
+  });
+  getUnsentNotifications2().then((value) => {
+    for (let index = 0; index < value.length; index++) {
+      if (value[index]["purpose"]) {
+        io.emit("Appointment2", value[index]["data"]["info"]);
+      } else {
+        io.emit("notification2", value[index]["data"]["info"]);
       }
     }
   });
